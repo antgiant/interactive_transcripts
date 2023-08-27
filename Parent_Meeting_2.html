@@ -1,5 +1,3 @@
-.<!-- Example index.html Copyright (C) BBC Research & Development - content used with kind permission of Ian Forrester https://twitter.com/cubicgarden/ -->
-<!-- Version 2.1 -->
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +7,6 @@
     <link rel="stylesheet" href="css/hyperaudio-lite-player.css">
     <link rel="stylesheet" href="css/share-this.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.js"></script>
-    <script src="https://platform.twitter.com/widgets.js"></script>
     <style>
         /* uncomment the following CSS for active parent / word indicator */
 
@@ -4931,12 +4928,11 @@
     <script src="js/hyperaudio-lite.js"></script>
     <script src="js/hyperaudio-lite-extension.js"></script>
     <script src="js/share-this.js"></script>
-    <script src="js/share-this-twitter.js"></script>
     <script src="js/share-this-clipboard.js"></script>
     <script src="js/caption.js"></script>
     <script>
         ShareThis({
-            sharers: [ShareThisViaTwitter, ShareThisViaClipboard],
+            sharers: [ShareThisViaClipboard],
             selector: "article"
         }).init();
 
