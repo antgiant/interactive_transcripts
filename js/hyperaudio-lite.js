@@ -417,6 +417,7 @@ class HyperaudioLite {
 
   setPlayHead = e => {
     const target = e.target ? e.target : e.srcElement;
+    console.log("Setting Play Head to "+target.toString());
 
     // cancel highlight playback
     this.highlightedText = false;
@@ -434,12 +435,15 @@ class HyperaudioLite {
     }
 
     const timeSecs = parseInt(target.getAttribute('data-m')) / 1000;
+    console.log("Updating Visual state to current Playhead position");
     this.updateTranscriptVisualState(timeSecs);
 
     if (!isNaN(parseFloat(timeSecs))) {
       this.end = null;
+      console.log("Setting playhead to correct time");
       this.myPlayer.setTime(timeSecs);
       if (this.playOnClick === true) {
+        console.log("Clicing play");
         this.myPlayer.play();
       }
     }
