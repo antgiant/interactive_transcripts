@@ -542,7 +542,7 @@ class HyperaudioLite {
 
         //minimizedMode is still experimental - it changes document.title upon every new word
         if (this.minimizedMode) {
-          const elements = transcript.querySelectorAll('[data-m]');
+          const elements = this.transcript.querySelectorAll('[data-m]');
           let currentWord = '';
           let lastWordIndex = this.wordIndex;
 
