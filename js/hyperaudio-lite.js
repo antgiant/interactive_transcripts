@@ -277,10 +277,23 @@ class HyperaudioLite {
       this.highlightedText = true;
 
       let indices = this.updateTranscriptVisualState(this.start);
+      
+      if (!isNaN(parseFloat(this.start))) {
+        this.end = null;
+        this.myPlayer.setTime(this.start);
+      }
+      
       let index = indices.currentWordIndex;
 
       if (index > 0) {
-        this.scrollToParagraph(indices.currentParentElementIndex, index);
+        let scrollNode = this.wordArr[index - 1].n.parentNode;
+
+        if (scrollNode !== null && scrollNode.tagName != 'P') {
+          // it's not inside a para so just use the element
+          scrollNode = this.wordArr[index - 1].n;
+        }
+        scrollNode.scrollIntoView();
+        //this.scrollToParagraph(indices.currentParentElementIndex, index);
       }
     }
 
