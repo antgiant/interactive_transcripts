@@ -184,9 +184,11 @@ class HyperaudioLite {
   constructor(transcriptId, mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick) {
     this.transcript = document.getElementById(transcriptId);
     this.init(mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick);
+    console.log("Constructor Running");
   }
 
   init = (mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick) => {
+    console.log("Init Running");
 
     const windowHash = window.location.hash;
     const hashVar = windowHash.substring(1, windowHash.indexOf('='));
@@ -234,6 +236,7 @@ class HyperaudioLite {
     }
 
     //Create the array of timed elements (wordArr)
+    console.log("Adding variables");
 
     const words = this.transcript.querySelectorAll('[data-m]');
     this.wordArr = this.createWordArray(words);
@@ -267,6 +270,7 @@ class HyperaudioLite {
     if (this.doubleClick === true) {
       playHeadEvent = 'dblclick';
     }
+    console.log("Adding Listeners");
 
     this.transcript.addEventListener(playHeadEvent, this.setPlayHead, false);
     this.transcript.addEventListener(playHeadEvent, this.checkPlayHead, false);
