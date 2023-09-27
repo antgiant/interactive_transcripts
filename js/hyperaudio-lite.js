@@ -215,10 +215,6 @@ class HyperaudioLite {
     this.wordIndex = 0;
 
     this.autoscroll = autoscroll;
-    this.scrollerContainer = this.transcript;
-    this.scrollerOffset = 0;
-    this.scrollerDuration = 800;
-    this.scrollerDelay = 0;
 
     this.doubleClick = doubleClick;
     this.webMonetization = webMonetization;
@@ -228,10 +224,6 @@ class HyperaudioLite {
 
     this.myPlayer = null;
     this.playerPaused = true;
-
-    if (this.autoscroll === true) {
-      this.scroller = window.Velocity || window.jQuery.Velocity;
-    }
 
     //Create the array of timed elements (wordArr)
 
@@ -286,14 +278,7 @@ class HyperaudioLite {
       let index = indices.currentWordIndex;
 
       if (index > 0) {
-        let scrollNode = this.wordArr[index - 1].n.parentNode;
-
-        if (scrollNode !== null && scrollNode.tagName != 'P') {
-          // it's not inside a para so just use the element
-          scrollNode = this.wordArr[index - 1].n;
-        }
-        scrollNode.scrollIntoView();
-        //this.scrollToParagraph(indices.currentParentElementIndex, index);
+        this.scrollToParagraph(indices.currentParentElementIndex, index);
       }
     }
 
@@ -496,42 +481,29 @@ class HyperaudioLite {
 
   scrollToParagraph = (currentParentElementIndex, index) => {
     let newPara = false;
-    let scrollNode = this.wordArr[index - 1].n.parentNode;
+    let scrollNode = this.wordArr[index - 1].n;
 
-    if (scrollNode !== null && scrollNode.tagName != 'P') {
-      // it's not inside a para so just use the element
-      scrollNode = this.wordArr[index - 1].n;
-    }
-
-    if (currentParentElementIndex != this.parentElementIndex) {
-
-      if (typeof this.scroller !== 'undefined' && this.autoscroll === true) {
-        if (scrollNode !== null) {
-          if (typeof this.scrollerContainer !== 'undefined' && this.scrollerContainer !== null) {
-            this.scroller(scrollNode, 'scroll', {
-              container: this.scrollerContainer,
-              duration: this.scrollerDuration,
-              delay: this.scrollerDelay,
-              offset: this.scrollerOffset,
-            });
-          } else {
-            this.scroller(scrollNode, 'scroll', {
-              duration: this.scrollerDuration,
-              delay: this.scrollerDelay,
-              offset: this.scrollerOffset,
-            });
-          }
-        } else {
-          // the wordlst needs refreshing
-          let words = this.transcript.querySelectorAll('[data-m]');
-          this.wordArr = this.createWordArray(words);
-          this.parentElements = this.transcript.getElementsByTagName(this.parentTag);
-        }
+    if (this.autoscroll === true) {
+      if (scrollNode !== null) {
+        var headerOffset = 90;
+        var scrollNodePosition = scrollNode.getBoundingClientRect().top;
+        var offsetPosition = scrollNodePosition + window.scrollY - headerOffset;
+      
+        window.scrollTo({
+             top: offsetPosition,
+             behavior: "smooth"
+        });
+      } else {
+        // the wordlst needs refreshing
+        let words = this.transcript.querySelectorAll('[data-m]');
+        this.wordArr = this.createWordArray(words);
+        this.parentElements = this.transcript.getElementsByTagName(this.parentTag);
       }
-
-      newPara = true;
-      this.parentElementIndex = currentParentElementIndex;
     }
+
+    newPara = true;
+    this.parentElementIndex = currentParentElementIndex;
+
     return(newPara);
   }
 
@@ -714,13 +686,6 @@ class HyperaudioLite {
     };
 
     return indices;
-  };
-
-  setScrollParameters = (duration, delay, offset, container) => {
-    this.scrollerContainer = container;
-    this.scrollerDuration = duration;
-    this.scrollerDelay = delay;
-    this.scrollerOffset = offset;
   };
 
   toggleAutoScroll = () => {
