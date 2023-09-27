@@ -455,6 +455,7 @@ class HyperaudioLite {
 
   preparePlayHead = () => {
     this.myPlayer.paused = false;
+    console.log("Play Clicked");
     this.checkPlayHead();
   }
 
@@ -464,6 +465,7 @@ class HyperaudioLite {
   }
 
   checkPlayHead = () => {
+    console.log("Checking play head");
 
     this.clearTimer();
 
