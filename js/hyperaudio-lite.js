@@ -369,7 +369,7 @@ class HyperaudioLite {
 
       if (aNode !== null) {
         let aNodeTime = parseInt(aNode.getAttribute('data-m'), 10);
-        let aNodeDuration = parseInt(aNode.getAttribute('data-d'), 10);
+        let aNodeDuration = parseInt(aNode.getAttribute('data-d'), 10) || 0;
         let fNodeTime;
         let fNodeDuration;
 
@@ -380,7 +380,7 @@ class HyperaudioLite {
           }
 
           fNodeTime = parseInt(fNode.getAttribute('data-m'), 10);
-          fNodeDuration = parseInt(fNode.getAttribute('data-d'), 10);
+          fNodeDuration = parseInt(fNode.getAttribute('data-d'), 10) || 0;
 
           // if the selection starts with a space we want the next element
 
@@ -398,6 +398,9 @@ class HyperaudioLite {
         if (aNodeTime >= fNodeTime) {
           nodeStart = fNodeTime;
           nodeDuration = Math.round((aNodeTime + aNodeDuration - fNodeTime) * 10) / 10;
+        } else {
+          nodeStart = aNodeTime;
+          nodeDuration = Math.round((fNodeTime + fNodeDuration - aNodeTime) * 10) / 10;
         }
 
         if (nodeDuration === 0 || nodeDuration === null || isNaN(nodeDuration)) {
