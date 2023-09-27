@@ -481,29 +481,35 @@ class HyperaudioLite {
 
   scrollToParagraph = (currentParentElementIndex, index) => {
     let newPara = false;
-    let scrollNode = this.wordArr[index - 1].n;
+    let scrollNode = this.wordArr[index - 1].n.parentNode;
 
-    if (this.autoscroll === true) {
-      if (scrollNode !== null) {
-        var headerOffset = 90;
-        var scrollNodePosition = scrollNode.getBoundingClientRect().top;
-        var offsetPosition = scrollNodePosition + window.scrollY - headerOffset;
-      
-        window.scrollTo({
-             top: offsetPosition,
-             behavior: "smooth"
-        });
-      } else {
-        // the wordlst needs refreshing
-        let words = this.transcript.querySelectorAll('[data-m]');
-        this.wordArr = this.createWordArray(words);
-        this.parentElements = this.transcript.getElementsByTagName(this.parentTag);
-      }
+    if (scrollNode !== null && scrollNode.tagName != 'P') {
+      // it's not inside a para so just use the element
+      scrollNode = this.wordArr[index - 1].n;
     }
 
-    newPara = true;
-    this.parentElementIndex = currentParentElementIndex;
+    if (currentParentElementIndex != this.parentElementIndex) {
+      if (this.autoscroll === true) {
+        if (scrollNode !== null) {
+          var headerOffset = 90;
+          var scrollNodePosition = scrollNode.getBoundingClientRect().top;
+          var offsetPosition = scrollNodePosition + window.scrollY - headerOffset;
+        
+          window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+          });
+        } else {
+          // the wordlst needs refreshing
+          let words = this.transcript.querySelectorAll('[data-m]');
+          this.wordArr = this.createWordArray(words);
+          this.parentElements = this.transcript.getElementsByTagName(this.parentTag);
+        }
+      }
 
+      newPara = true;
+      this.parentElementIndex = currentParentElementIndex;
+    }
     return(newPara);
   }
 
