@@ -184,11 +184,9 @@ class HyperaudioLite {
   constructor(transcriptId, mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick) {
     this.transcript = document.getElementById(transcriptId);
     this.init(mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick);
-    console.log("Constructor Running");
   }
 
   init = (mediaElementId, minimizedMode, autoscroll, doubleClick, webMonetization, playOnClick) => {
-    console.log("Init Running");
 
     const windowHash = window.location.hash;
     const hashVar = windowHash.substring(1, windowHash.indexOf('='));
@@ -236,7 +234,6 @@ class HyperaudioLite {
     }
 
     //Create the array of timed elements (wordArr)
-    console.log("Adding variables");
 
     const words = this.transcript.querySelectorAll('[data-m]');
     this.wordArr = this.createWordArray(words);
@@ -270,7 +267,6 @@ class HyperaudioLite {
     if (this.doubleClick === true) {
       playHeadEvent = 'dblclick';
     }
-    console.log("Adding Listeners");
 
     this.transcript.addEventListener(playHeadEvent, this.setPlayHead, false);
     this.transcript.addEventListener(playHeadEvent, this.checkPlayHead, false);
@@ -421,7 +417,6 @@ class HyperaudioLite {
 
   setPlayHead = e => {
     const target = e.target ? e.target : e.srcElement;
-    console.log("Setting Play Head to "+target.toString());
 
     // cancel highlight playback
     this.highlightedText = false;
@@ -439,15 +434,12 @@ class HyperaudioLite {
     }
 
     const timeSecs = parseInt(target.getAttribute('data-m')) / 1000;
-    console.log("Updating Visual state to current Playhead position");
     this.updateTranscriptVisualState(timeSecs);
 
     if (!isNaN(parseFloat(timeSecs))) {
       this.end = null;
-      console.log("Setting playhead to correct time");
       this.myPlayer.setTime(timeSecs);
       if (this.playOnClick === true) {
-        console.log("Clicing play");
         this.myPlayer.play();
       }
     }
@@ -459,7 +451,6 @@ class HyperaudioLite {
 
   preparePlayHead = () => {
     this.myPlayer.paused = false;
-    console.log("Play Clicked");
     this.checkPlayHead();
   }
 
@@ -469,7 +460,6 @@ class HyperaudioLite {
   }
 
   checkPlayHead = () => {
-    console.log("Checking play head");
 
     this.clearTimer();
 
