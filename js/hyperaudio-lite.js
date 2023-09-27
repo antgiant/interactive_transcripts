@@ -268,12 +268,13 @@ class HyperaudioLite {
     if (!isNaN(parseFloat(this.start))) {
       this.highlightedText = true;
 
-      let indices = this.updateTranscriptVisualState(this.start);
-      
       if (!isNaN(parseFloat(this.start))) {
         this.end = null;
         this.myPlayer.setTime(this.start);
+        this.myPlayer.play();
+        this.myPlayer.pause();
       }
+      let indices = this.updateTranscriptVisualState(this.start);
       
       let index = indices.currentWordIndex;
 
